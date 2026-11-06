@@ -177,3 +177,8 @@ def test_price_chart_matches_indicator_facts(price_df: pd.DataFrame):
     assert len(chart["dates"]) == len(chart["close"]) == len(chart["ma20"]) == 60
     assert chart["close"][-1] == facts["price"]
     assert chart["ma20"][-1] == facts["ma20"] and chart["ma50"][-1] == facts["ma50"]
+
+
+def test_cors_origin_list_parsing(monkeypatch):
+    monkeypatch.setattr(settings, "cors_origins", " https://halallens.vercel.app/ , http://localhost:5180,")
+    assert settings.cors_origin_list == ["https://halallens.vercel.app", "http://localhost:5180"]

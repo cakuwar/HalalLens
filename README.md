@@ -79,6 +79,20 @@ Ports (chosen to avoid other local projects that use 4000, 5173, 4173, 8000, 543
 The web UI is in [ui/halallens-ui](ui/halallens-ui/README.md). It falls back to a labelled demo mode
 when the API isn't running.
 
+## Deploy
+
+**Web UI on Vercel.** It is free, and it runs the labelled demo mode until a backend is connected.
+
+1. On vercel.com, choose **Add New → Project** and import this GitHub repo.
+2. Set **Root Directory** to `ui/halallens-ui`. The framework (Vite), build command and output directory come from `vercel.json`.
+3. Deploy. Every push to `main` redeploys.
+
+**Backend.** The backend needs a long-running server, not serverless functions, because a run streams for about 30 seconds and the LangGraph checkpoint must survive between the draft and your approval.
+
+- Deploy the root `Dockerfile` (port 8010) to Render, Railway or Fly.io, with Postgres on Neon or Supabase through `DATABASE_URL`.
+- Set `CORS_ORIGINS=https://<your-app>.vercel.app` on the backend and `VITE_API_BASE=https://<your-backend>` on Vercel, then redeploy the UI.
+- Before making the backend public, add rate limiting (TODO in `app/api/main.py`) and set a spend limit on your LLM provider. Saved briefs are written to disk, so use a host with a persistent disk or move them to Postgres.
+
 ## Limitations
 
 - `yfinance` is unofficial and can break or rate-limit. Calls are retried and cached for a day, and a stale cache is flagged in the brief.

@@ -49,6 +49,15 @@ class Settings(BaseSettings):
     max_revisions: int = 2
     min_match_score: float = 80.0  # rapidfuzz score (0-100) needed to accept a ticker match
 
+    # --- Deployment -----------------------------------------------------------------
+    # Comma-separated browser origins allowed to call the API directly, e.g. the Vercel
+    # site "https://halallens.vercel.app". Empty = same-origin only (dev proxy / nginx).
+    cors_origins: str = ""
+
+    @property
+    def cors_origin_list(self) -> list[str]:
+        return [o.strip().rstrip("/") for o in self.cors_origins.split(",") if o.strip()]
+
     @property
     def langfuse_enabled(self) -> bool:
         return bool(self.langfuse_public_key and self.langfuse_secret_key)

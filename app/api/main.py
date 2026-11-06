@@ -22,6 +22,7 @@ from functools import lru_cache
 from typing import Any, Literal
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, StreamingResponse
 from langgraph.types import Command
 from pydantic import BaseModel, Field
@@ -32,6 +33,14 @@ from app.graph.graph import get_graph
 from app.tools.shariah_lookup import load_shariah_list, next_sc_update
 
 app = FastAPI(title="HalalLens API", version="0.2.0")
+
+if settings.cors_origin_list:  # e.g. the Vercel-hosted UI calling a backend on another domain
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.cors_origin_list,
+        allow_methods=["GET", "POST"],
+        allow_headers=["Content-Type"],
+    )
 
 NODES = ("supervisor", "shariah", "technical", "news", "writer")
 SAVED_ID_RE = re.compile(r"^[A-Za-z0-9_-]{1,120}$")

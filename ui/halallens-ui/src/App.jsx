@@ -10,6 +10,8 @@ import { connect, getBrief, listBriefs, resumeResearch, startResearch } from "./
 import { briefFilename, briefTitle, downloadText, fmtDate, storageGet, storageSet } from "./format.js";
 
 const AGENTS = ["shariah", "technical", "news"];
+// Developer hints (like "start uvicorn") only make sense on your own machine, not on a public deploy.
+const IS_LOCAL = ["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname);
 const freshNodes = () =>
   Object.fromEntries(AGENT_NODES.map((n) => [n.id, { status: "pending", detail: null, startedAt: null, endedAt: null }]));
 
@@ -273,10 +275,12 @@ export default function App() {
             <Info />
             <span>
               <strong>Demo mode.</strong>{" "}
-              {conn.reason === "forced"
-                ? "VITE_USE_MOCK=true, so the UI runs a simulated agent with synthetic prices."
-                : "The backend isn't reachable, so the UI runs a simulated agent with synthetic prices. Start it with "}
-              {conn.reason !== "forced" && <code>uvicorn app.api.main:app --reload --port 8010</code>}
+              {!IS_LOCAL
+                ? "This deployment runs a simulated agent with synthetic prices and placeholder headlines, so you can try the full flow. Shariah statuses match the SC list."
+                : conn.reason === "forced"
+                  ? "VITE_USE_MOCK=true, so the UI runs a simulated agent with synthetic prices."
+                  : "The backend isn't reachable, so the UI runs a simulated agent with synthetic prices. Start it with "}
+              {IS_LOCAL && conn.reason !== "forced" && <code>uvicorn app.api.main:app --reload --port 8010</code>}
             </span>
           </div>
         )}

@@ -15,6 +15,9 @@
 import { MOCK_CONFIG, mockGetBrief, mockListBriefs, mockResume, mockStart } from "./mockAgent.js";
 
 const FORCE = import.meta.env.VITE_USE_MOCK; // "true" | "false" | undefined
+// Where the backend lives. "/api" = same origin (Vite proxy in dev, nginx in Docker).
+// On Vercel, set VITE_API_BASE to the hosted backend, e.g. https://halallens-api.onrender.com
+const API_BASE = (import.meta.env.VITE_API_BASE || "/api").replace(/\/+$/, "");
 let mode = FORCE === "true" ? "demo" : "live";
 
 export const getMode = () => mode;
@@ -23,7 +26,7 @@ export const getMode = () => mode;
 export async function connect() {
   if (FORCE === "true") return { mode: (mode = "demo"), config: MOCK_CONFIG, reason: "forced" };
   try {
-    const res = await fetchWithTimeout("/api/config", 3500);
+    const res = await fetchWithTimeout(`${API_BASE}/config`, 3500);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return { mode: (mode = "live"), config: await res.json() };
   } catch (err) {
@@ -34,24 +37,24 @@ export async function connect() {
 
 export function startResearch(query, threadId, onEvent) {
   if (mode === "demo") return mockStart(query, threadId, onEvent);
-  return streamSSE("/api/research", { query, thread_id: threadId || undefined }, onEvent);
+  return streamSSE(`${API_BASE}/research`, { query, thread_id: threadId || undefined }, onEvent);
 }
 
 export function resumeResearch(threadId, decision, onEvent) {
   if (mode === "demo") return mockResume(threadId, decision, onEvent);
-  return streamSSE(`/api/resume/${encodeURIComponent(threadId)}`, decision, onEvent);
+  return streamSSE(`${API_BASE}/resume/${encodeURIComponent(threadId)}`, decision, onEvent);
 }
 
 export async function listBriefs() {
   if (mode === "demo") return mockListBriefs();
-  const res = await fetch("/api/briefs");
+  const res = await fetch(`${API_BASE}/briefs`);
   if (!res.ok) throw new Error(`Could not load saved briefs (${res.status})`);
   return res.json();
 }
 
 export async function getBrief(savedId) {
   if (mode === "demo") return mockGetBrief(savedId);
-  const res = await fetch(`/api/briefs/${encodeURIComponent(savedId)}`);
+  const res = await fetch(`${API_BASE}/briefs/${encodeURIComponent(savedId)}`);
   if (!res.ok) throw new Error(`Could not open this brief (${res.status})`);
   return res.json();
 }
