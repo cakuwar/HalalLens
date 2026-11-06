@@ -328,7 +328,7 @@ kbd { font-family: var(--mono); }
 .agent-card__name { font-weight: 600; font-size: 16px; }
 
 /* ---------- Pipeline graph ---------- */
-.pg { position: relative; width: 100%; }
+.pg { position: relative; width: 100%; flex-shrink: 0; } /* children are absolute, so without this the .run flex column squashes it */
 .pg__edges { position: absolute; inset: 0; overflow: visible; }
 .pg__edge { fill: none; stroke: var(--line-strong); stroke-width: 1.5; transition: stroke 0.3s; }
 .pg__edge--done { stroke: var(--brand-bright); }
