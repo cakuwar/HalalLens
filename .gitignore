@@ -25,3 +25,6 @@ ui/halallens-ui/.env
 Thumbs.db
 .vscode/
 .idea/
+
+# Documents (build plan, SC list PDFs)
+*.pdf
