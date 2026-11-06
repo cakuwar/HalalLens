@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets
+.env
+
+# Runtime data
+.cache/
+checkpoints.db*
+data/briefs/
+data/raw/
+evals/results/
+
+# Web UI
+node_modules/
+ui/halallens-ui/dist/
+ui/halallens-ui/.env
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

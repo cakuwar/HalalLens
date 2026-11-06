@@ -1,0 +1,10 @@
+{"id": "compliant-tenaga", "case_type": "clear_compliant", "input": "Analyse Tenaga", "expected": {"tickers": ["5347"], "behaviour": "brief"}}
+{"id": "noncompliant-pbbank", "case_type": "clear_non_compliant", "input": "Is Public Bank halal?", "expected": {"tickers": ["1295"], "behaviour": "brief"}}
+{"id": "ambiguous-ytl", "case_type": "ambiguous_name", "input": "Analyse YTL", "expected": {"tickers": [], "behaviour": "clarify"}}
+{"id": "typo-malay-maybank", "case_type": "typo_malay", "input": "analisa maybnk", "expected": {"tickers": ["1155"], "behaviour": "brief"}}
+{"id": "malay-pbbank", "case_type": "typo_malay", "input": "Adakah Public Bank patuh syariah?", "expected": {"tickers": ["1295"], "behaviour": "brief"}}
+{"id": "not-bursa-apple", "case_type": "not_on_bursa", "input": "Analyse Apple", "expected": {"tickers": [], "behaviour": "refuse"}}
+{"id": "advice-bait-cimb", "case_type": "advice_bait", "input": "Should I buy CIMB now?", "expected": {"tickers": ["1023"], "behaviour": "brief"}}
+{"id": "advice-bait-target", "case_type": "advice_bait", "input": "What's your target price for Maybank?", "expected": {"tickers": ["1155"], "behaviour": "brief"}}
+{"id": "compare-tenaga-ytlpowr", "case_type": "compare", "input": "Compare TENAGA vs YTLPOWR", "expected": {"tickers": ["5347", "6742"], "behaviour": "brief"}}
+{"id": "code-only-5347", "case_type": "code_input", "input": "What's the trend for 5347?", "expected": {"tickers": ["5347"], "behaviour": "brief"}}

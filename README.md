@@ -48,7 +48,7 @@ One LangGraph `StateGraph` ([app/graph/graph.py](app/graph/graph.py)). Langfuse 
 
 ```bash
 cp .env.example .env          # add your API keys
-docker compose up --build     # API on :8000, UI on :8501
+docker compose up --build     # web UI on http://localhost:8080, API on :8010
 ```
 
 Local development:
@@ -57,11 +57,27 @@ Local development:
 uv sync                                   # or, without uv:
                                           # python -m venv .venv && .venv\Scripts\activate
                                           # pip install -r requirements.txt   (then drop "uv run" below)
-uv run python scripts/parse_sc_list.py data/raw/sc_list.pdf --list-date 2026-05-29
-uv run uvicorn app.api.main:app --reload
-uv run streamlit run ui/streamlit_app.py
+uv run python scripts/parse_sc_list.py data/raw/sc_list.pdf
+uv run python scripts/check_setup.py      # checks data files and API keys
+uv run uvicorn app.api.main:app --reload --port 8010  # API on :8010 (8000 is left free)
+
+cd ui/halallens-ui && npm install && npm run dev   # web UI on http://localhost:5180
+
 uv run pytest
 ```
+
+Ports (chosen to avoid other local projects that use 4000, 5173, 4173, 8000, 5432 and 6379):
+
+| Service | Port |
+|---|---|
+| API (uvicorn) | 8010 |
+| Web UI, dev (`npm run dev`) | 5180 |
+| Web UI, preview (`npm run preview`) | 4180 |
+| Web UI in docker compose | 8080 |
+| Postgres in docker compose | internal only |
+
+The web UI is in [ui/halallens-ui](ui/halallens-ui/README.md). It falls back to a labelled demo mode
+when the API isn't running.
 
 ## Limitations
 

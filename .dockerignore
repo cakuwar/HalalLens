@@ -1,0 +1,13 @@
+.venv
+.git
+.env
+.cache
+__pycache__
+*.pyc
+checkpoints.db*
+data/briefs
+data/raw
+evals/results
+*.pdf
+ui/halallens-ui/node_modules
+ui/halallens-ui/dist

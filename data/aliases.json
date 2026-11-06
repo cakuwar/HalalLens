@@ -1,0 +1,9 @@
+{
+  "_comment": "Common names for Bursa stocks: code -> name and aliases. Codes and names only; Shariah status always comes from shariah_list.csv. Leave plain 'ytl' out on purpose so 'Analyse YTL' stays ambiguous. Add entries as you grow the eval set.",
+  "1155": {"name": "Malayan Banking Berhad", "aliases": ["maybank", "malayan banking"]},
+  "1295": {"name": "Public Bank Berhad", "aliases": ["public bank", "pbbank"]},
+  "1023": {"name": "CIMB Group Holdings Berhad", "aliases": ["cimb", "cimb group"]},
+  "5347": {"name": "Tenaga Nasional Berhad", "aliases": ["tenaga", "tenaga nasional", "tnb"]},
+  "6742": {"name": "YTL Power International Berhad", "aliases": ["ytl power", "ytlpowr"]},
+  "4677": {"name": "YTL Corporation Berhad", "aliases": ["ytl corporation", "ytl corp"]}
+}
